@@ -73,7 +73,24 @@ public class LeetCode {
 
 //        System.out.println(lc.translateNum(12258));
 
-        System.out.println(lc.exist(new char[][]{{'A', 'B','C','E'}, {'S', 'F','C','S'},{'A','D','E','E'}}, "ABCCED"));
+//        System.out.println(lc.exist(new char[][]{{'A', 'B','C','E'}, {'S', 'F','C','S'},{'A','D','E','E'}}, "ABCCED"));
+
+        System.out.println(lc.isPalindrome(10010));
+    }
+
+    public boolean isPalindrome(int x) {
+        /*StringBuilder sb = new StringBuilder(String.valueOf(x));
+        String s = sb.toString();
+        return sb.reverse().toString().equals(s);*/
+        if(x < 0 || (x % 10 == 0 && x != 0)){
+            return false;
+        }
+        int reverNum = 0;
+        while(reverNum < x){
+            reverNum = reverNum * 10 + x % 10;
+            x /= 10;
+        }
+        return reverNum == x || reverNum / 10 == x;
     }
 
     /**
