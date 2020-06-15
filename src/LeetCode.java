@@ -6,7 +6,7 @@ public class LeetCode {
     public static void main(String[] args) {
         LeetCode lc = new LeetCode();
 //        System.out.println(lc.longestPalindrome("cbbd"));
-//        System.out.println(lc.minWindow("bbaa", "aba"));
+//        System.out.println(lc.minWindow("ADOBECODEBANC", "ABC"));
 
 //        System.out.println(lc.findMedianSortedArrays(new int[]{4}, new int[]{3, 4}));
 
@@ -75,9 +75,106 @@ public class LeetCode {
 
 //        System.out.println(lc.exist(new char[][]{{'A', 'B','C','E'}, {'S', 'F','C','S'},{'A','D','E','E'}}, "ABCCED"));
 
-        System.out.println(lc.isPalindrome(10010));
+//        System.out.println(lc.isPalindrome(10010));
+
+//        System.out.println(lc.longestCommonPrefix(new String[]{"flower","flow","flight"}));
+
+        System.out.println(lc.findSubstring("barfoothefoobarman", new String[]{"foo","bar"}));
     }
 
+    /**
+     * 串联所有单词的子串
+     * @param s
+     * @param words
+     * @return
+     */
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res = new ArrayList<>();
+        if (words == null || words.length == 0){
+            return res;
+        }
+        int num = words.length;
+        Map<String, Integer> allWords = new HashMap<>();
+        for (String word : words) {
+            int value = allWords.getOrDefault(word, 0);
+            allWords.put(word, value + 1);
+        }
+        int len = words[0].length();
+        for (int i = 0; i < s.length() - len * num + 1; i++) {
+            Map<String, Integer> hasWords = new HashMap<>();
+            int count = 0;
+            while (count < num){
+                String word = s.substring(i + count * len, i + (count + 1) * len);
+                if (allWords.containsKey(word)){
+                    int value = hasWords.getOrDefault(word, 0);
+                    hasWords.put(word, value + 1);
+                    if (hasWords.get(word) > allWords.get(word)){
+                        break;
+                    }
+                }else {
+                    break;
+                }
+                count++;
+            }
+            if (count == num){
+                res.add(i);
+            }
+        }
+        return res;
+    }
+    /**
+     * 最长公共前缀
+     * @param strs
+     * @return
+     */
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+        int n = strs.length;
+        String res = strs[0];
+        for (int i = 1; i < n; i++) {
+            while (strs[i].indexOf(res) != 0){
+                res = res.substring(0, res.length() - 1);
+                if (res.isEmpty())
+                    return "";
+            }
+        }
+        return res;
+    }
+
+    public String longestCommonPrefix2(String[] strs) {
+        if(strs == null || strs.length == 0){
+            return "";
+        }
+        int n = strs.length;
+        String res = strs[0];
+        for(int i = 1; i < n; i++){
+            res = getCommonStr(res, strs[i]);
+        }
+        return res;
+    }
+
+    private String getCommonStr(String s1, String s2) {
+        String ans = "";
+        int i = 0;
+        int len = Math.min(s1.length(), s2.length());
+        while (i < len){
+            if (s1.charAt(i) == s2.charAt(i)){
+                ans += s1.charAt(i);
+            }else {
+                break;
+            }
+            i++;
+        }
+        return ans;
+    }
+
+    /**
+     * 判断回文数
+     * @param x
+     * @return
+     */
     public boolean isPalindrome(int x) {
         /*StringBuilder sb = new StringBuilder(String.valueOf(x));
         String s = sb.toString();
